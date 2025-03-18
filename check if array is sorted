@@ -1,0 +1,21 @@
+import java.io.*;
+class GFG {
+    public static void main (String[] args) {
+        int[] a = {10,20,30,40,50};    
+        int n = a.length;
+        boolean ans = isSorted(a, n);
+        if (ans == true) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+    }
+    public static boolean isSorted(int[] a, int n) {
+        for (int i = 1; i < n; i++) {
+            if (a[i] < a[i - 1]) {
+                return false; 
+            }
+        }
+        return true; 
+    }
+}
