@@ -1,0 +1,24 @@
+import java.io.*;
+class GFG {
+    public static void main (String[] args) {
+        int[] a = {10, 20, 10, 20, 30};
+        int n = a.length;
+        System.out.println("Distinct Count: " + countDistinct(a, n));
+    }
+    public static int countDistinct(int[] a, int n) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            boolean isDistinct = true;
+            for (int j = i - 1; j >= 0; j--) {
+                if (a[i] == a[j]) {
+                    isDistinct = false; 
+                    break;
+                }
+            }
+            if (isDistinct) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
