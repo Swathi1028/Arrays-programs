@@ -1,0 +1,47 @@
+import java.io.*;
+import java.util.*;
+class GFG {
+    public static void main(String args[]) throws IOException {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while (t-- > 0) {
+            int N = Integer.parseInt(read.readLine());
+            int M = Integer.parseInt(read.readLine());
+            int mat[][] = new int[N][M];
+            for (int i = 0; i < N; i++) {
+                String S[] = read.readLine().split(" ");
+                for (int j = 0; j < M; j++) {
+                    mat[i][j] = Integer.parseInt(S[j]);
+                }
+            }
+            Solution ob = new Solution();
+            System.out.println(ob.minRow(mat));
+
+            System.out.println("~");
+        }
+    }
+}
+class Solution {
+    int minRow(int mat[][]) {
+        int n = mat.length;
+        int m = mat[0].length;
+        int minOnes = Integer.MAX_VALUE;
+        int rowIndex = -1;
+        for(int i=0;i<n;i++){
+            int count = 0;
+            for(int j=0;j<m;j++){
+                if(mat[i][j] == 1){
+                    count++;
+                }
+            }
+            if(count<minOnes){
+                minOnes = count;
+                rowIndex = i+1;
+            }
+        }
+        return rowIndex;
+    }
+}
+
+Input: mat = [[1, 1, 1, 1], [1, 1, 0, 0], [0, 0, 1, 1], [1, 1, 1, 1]]
+Output: 2
