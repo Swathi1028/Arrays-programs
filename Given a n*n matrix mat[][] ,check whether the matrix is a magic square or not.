@@ -1,0 +1,74 @@
+import java.util.*;
+class Solution {
+    public static String magicSquare(int mat[][]) {
+        int n = mat.length;
+        if(n == 0 || n != mat[0].length){
+            return "Not a Magic Square";
+        }
+        HashSet<Integer> uniqueNumbers = new HashSet<>();
+        int sum = 0;
+        for(int j=0;j<n;j++){
+            sum += mat[0][j];
+            uniqueNumbers.add(mat[0][j]);
+        }
+        for(int i=0;i<n;i++){
+            int sum1 = 0;
+            for(int j=0;j<n;j++){
+                sum1 += mat[i][j];
+                uniqueNumbers.add(mat[i][j]);
+            }
+            if(sum1 != sum){
+               return "Not a Magic Square";
+            }
+        }
+        for(int j=0;j<mat[0].length;j++){
+            int sum2 = 0;
+            for(int i=0;i<n;i++){
+                sum2 += mat[i][j];
+            }
+            if(sum2 != sum){
+               return "Not a Magic Square";
+            }
+        }
+        int sum3 = 0;
+        for(int i=0;i<n;i++){
+            sum3 += mat[i][i];
+        }
+        if(sum3 != sum){
+               return "Not a Magic Square";
+        }
+        int sum4 = 0;
+        for(int i=0;i<n;i++){
+            sum4 += mat[i][n-i-1];
+        }
+        if(sum4 != sum){
+               return "Not a Magic Square";
+        }
+        if(uniqueNumbers.size() != n*n){
+            return "Not a Magic Square";
+        }
+     return "Magic Square";
+    }
+}
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        while (tc-- > 0) {
+            int n = sc.nextInt();
+            int mat[][] = new int[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) mat[i][j] = sc.nextInt();
+            }
+            Solution sln = new Solution();
+            String s = sln.magicSquare(mat);
+            System.out.println(s);
+        }
+    }
+}
+
+Input: mat = [[2, 7, 6], [9, 5, 1], [4, 3, 8]]
+Output: "Magic Square"
+Explanation: R1->2+7+6=15, R2->9+5+1=15, R3->4+3+8=15
+             C1->2+9+4=15, C2->7+5+3=15, C3->6+1+8=15
+             D1->2+5+8=15, D2=6+5+4=15
