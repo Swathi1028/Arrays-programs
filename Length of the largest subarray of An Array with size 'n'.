@@ -1,0 +1,38 @@
+public class LargestDivisibleSubarray {
+    public static int findLargestValidSubarray(int[] arr) {
+        int n = arr.length;
+        int maxLength = 1;
+        for (int start = 0; start < n; start++) {
+            for (int end = start; end < n; end++) {
+                boolean valid = true;
+                // Check all pairs within the subarray
+                for (int i = start; i <= end; i++) {
+                    for (int j = i + 1; j <= end; j++) {
+                        int a = arr[i];
+                        int b = arr[j];
+                        int min = Math.min(a, b);
+                        int max = Math.max(a, b);
+                        if (max % min != 0) {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if (!valid) break;
+                }
+                if (valid) {
+                    int length = end - start + 1;
+                    maxLength = Math.max(maxLength, length);
+                }
+            }
+        }
+        return maxLength;
+    }
+    public static void main(String[] args) {
+        int[] arr = {2, 4, 8, 16, 3, 6};
+        int result = findLargestValidSubarray(arr);
+        System.out.println("Length of largest valid subarray: " + result); // Output: 4
+    }
+}
+
+output:
+Length of largest valid subarray: 4
