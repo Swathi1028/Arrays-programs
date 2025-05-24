@@ -1,0 +1,21 @@
+public class EvenOddCount {
+    public static void main(String[] args) {
+        int[] numbers = {10, 21, 32, 43, 54, 65};  // Sample array
+        int evenCount = 0;
+        int oddCount = 0;
+        // Loop through each element in the array
+        for (int num : numbers) {
+            if (num % 2 == 0) {
+                evenCount++;  // Increment even count if divisible by 2
+            } else {
+                oddCount++;   // Otherwise, increment odd count
+            }
+        }
+        System.out.println("Number of even elements: " + evenCount);
+        System.out.println("Number of odd elements: " + oddCount);
+    }
+}
+
+output:
+Number of even elements: 3
+Number of odd elements: 3
