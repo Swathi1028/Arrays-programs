@@ -1,0 +1,14 @@
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int[] array = new int[nums1.length+nums2.length];
+        System.arraycopy(nums1,0,array,0,nums1.length);
+        System.arraycopy(nums2,0,array,nums1.length,nums2.length);
+        Arrays.sort(array);
+        int mid1=(array.length-1)/2;
+        int mid = (array.length)/2;
+        if(array.length%2 != 0)
+            return array[mid1];
+        else
+            return (float)(array[mid-1]+array[mid])/2; 
+    }
+}
