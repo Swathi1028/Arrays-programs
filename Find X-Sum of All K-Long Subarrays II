@@ -1,0 +1,83 @@
+import java.util.*;
+
+class Solution {
+    public long[] findXSum(int[] nums, int k, int x) {
+        int n = nums.length;
+        long[] ans = new long[n - k + 1];
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        Comparator<int[]> cmp = (a, b) -> {
+            if (a[1] != b[1]) return b[1] - a[1];
+            return b[0] - a[0];
+        };
+
+        TreeSet<int[]> top = new TreeSet<>(cmp);
+        TreeSet<int[]> rest = new TreeSet<>(cmp);
+        long sumTop = 0;
+
+        for (int i = 0; i < n; i++) {
+            int val = nums[i];
+            int oldFreq = freq.getOrDefault(val, 0);
+            int newFreq = oldFreq + 1;
+            freq.put(val, newFreq);
+
+            int[] oldNode = new int[]{val, oldFreq};
+            if (oldFreq > 0) {
+                if (top.remove(oldNode)) sumTop -= (long) oldNode[0] * oldNode[1];
+                else rest.remove(oldNode);
+            }
+
+            int[] newNode = new int[]{val, newFreq};
+            rest.add(newNode);
+            sumTop = rebalance(top, rest, x, sumTop);
+
+            if (i >= k) {
+                int rem = nums[i - k];
+                int oldF = freq.get(rem);
+                int[] remNode = new int[]{rem, oldF};
+                if (top.remove(remNode)) sumTop -= (long) remNode[0] * remNode[1];
+                else rest.remove(remNode);
+
+                if (oldF == 1) freq.remove(rem);
+                else {
+                    int newF = oldF - 1;
+                    freq.put(rem, newF);
+                    rest.add(new int[]{rem, newF});
+                }
+                sumTop = rebalance(top, rest, x, sumTop);
+            }
+
+            if (i >= k - 1) ans[i - k + 1] = sumTop;
+        }
+
+        return ans;
+    }
+
+    private long rebalance(TreeSet<int[]> top, TreeSet<int[]> rest, int x, long sumTop) {
+        while (top.size() < x && !rest.isEmpty()) {
+            int[] node = rest.pollFirst();
+            top.add(node);
+            sumTop += (long) node[0] * node[1];
+        }
+
+        while (top.size() > x) {
+            int[] node = top.pollLast();
+            rest.add(node);
+            sumTop -= (long) node[0] * node[1];
+        }
+
+        while (!top.isEmpty() && !rest.isEmpty()) {
+            int[] tLast = top.last();
+            int[] rFirst = rest.first();
+            if (rFirst[1] > tLast[1] || (rFirst[1] == tLast[1] && rFirst[0] > tLast[0])) {
+                top.remove(tLast);
+                rest.remove(rFirst);
+                top.add(rFirst);
+                rest.add(tLast);
+                sumTop += (long) rFirst[0] * rFirst[1];
+                sumTop -= (long) tLast[0] * tLast[1];
+            } else break;
+        }
+        return sumTop;
+    }
+}
