@@ -1,0 +1,26 @@
+class Solution {
+    public String breakPalindrome(String palindrome) {
+        if(palindrome.length() == 1) return "";
+        if(!isPalindrome(palindrome)) return palindrome; 
+        char[] ch = palindrome.toCharArray();
+        for(int i=0;i<ch.length/2;i++){
+            if(ch[i] != 'a'){
+                ch[i] = 'a';
+                return new String(ch);
+            }
+        }
+        ch[palindrome.length() - 1] = 'b';
+        return new String(ch);
+    }
+    private boolean isPalindrome(String palindrome){
+        int left = 0, right = palindrome.length() - 1;
+        while(left <= right){
+            if(palindrome.charAt(left) != palindrome.charAt(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    } 
+}
